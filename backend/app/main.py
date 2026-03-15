@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile
 from app.services.document_service import extract_text
 from app.utils.text_splitter import split_text
+from app.rag.embeddings import generate_embeddings
 import shutil
 
 app = FastAPI()
@@ -19,9 +20,11 @@ async def upload_document(file: UploadFile):
     text = extract_text(path)
 
     chunks = split_text(text)
-    
+
+    embeddings = generate_embeddings(chunks)
+
     return {
         "filename": file.filename,
-        "characters": len(text),
-        "chunks": len(chunks)
+        "chunks": len(chunks),
+        "embeddings": len(embeddings)
     }
