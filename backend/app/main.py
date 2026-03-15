@@ -10,7 +10,6 @@ def root():
 
 @app.post("/upload")
 async def upload_document(file: UploadFile):
-
     path = f"documents/{file.filename}"
 
     with open(path, "wb") as buffer:
