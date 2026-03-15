@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile
 from app.services.document_service import extract_text
+from app.utils.text_splitter import split_text
 import shutil
 
 app = FastAPI()
@@ -17,7 +18,10 @@ async def upload_document(file: UploadFile):
     
     text = extract_text(path)
 
+    chunks = split_text(text)
+    
     return {
         "filename": file.filename,
-        "characters": len(text)
+        "characters": len(text),
+        "chunks": len(chunks)
     }
