@@ -19,5 +19,8 @@ Thumbs.db
 # Logs
 *.log
 
-# Documents
-documents/
+# Generated data
+backend/documents/*
+backend/vector_store/*
+!backend/documents/.gitkeep
+!backend/vector_store/.gitkeep

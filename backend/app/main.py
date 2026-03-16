@@ -4,10 +4,13 @@ from app.utils.text_splitter import split_text
 from app.rag.embeddings import generate_embeddings
 from app.rag.retrieval import store_embeddings
 from app.rag.retrieval import search_similar_chunks
+from app.rag.retrieval import load_index
 from app.rag.generation import generate_answer
 import shutil
 
 app = FastAPI()
+
+load_index()
 
 @app.get("/")
 def root():

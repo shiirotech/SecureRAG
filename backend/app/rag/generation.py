@@ -4,7 +4,10 @@ def generate_answer(question, context_chunks):
     context = "\n\n".join(context_chunks)
 
     prompt = f"""
-Use the following document context to answer the question.
+You are an assistant answering questions about a document.
+
+Only use the provided context to answer the question.
+If the answer is not in the context, say you don't know.
 
 Context:
 {context}
