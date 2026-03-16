@@ -17,3 +17,20 @@ def store_embeddings(chunks, embeddings):
     index.add(embeddings)
 
     stored_chunks.extend(chunks)
+
+
+def search_similar_chunks(query_embedding, k = 3):
+    global index, stored_chunks
+
+    if index is None:
+        return []
+    
+    distances, indices = index.search(query_embedding, k)
+
+    results = []
+
+    for idx in indices[0]:
+        if idx < len(stored_chunks):
+            results.append(stored_chunks[idx])
+
+    return results
