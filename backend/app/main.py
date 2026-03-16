@@ -4,6 +4,7 @@ from app.utils.text_splitter import split_text
 from app.rag.embeddings import generate_embeddings
 from app.rag.retrieval import store_embeddings
 from app.rag.retrieval import search_similar_chunks
+from app.rag.generation import generate_answer
 import shutil
 
 app = FastAPI()
@@ -37,9 +38,12 @@ async def upload_document(file: UploadFile):
 async def ask_question(question: str):
     query_embedding = generate_embeddings([question])
 
-    results = search_similar_chunks(query_embedding)
+    retrieved_chunks = search_similar_chunks(query_embedding)
+
+    answer = generate_answer(question, retrieved_chunks)
 
     return {
         "question": question,
-        "retrieved-chunks": results
+        "answer": answer,
+        "context_used": retrieved_chunks
     }
