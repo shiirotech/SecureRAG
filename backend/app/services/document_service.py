@@ -5,7 +5,7 @@ def extract_text(path):
     pages = []
 
     for i, page in enumerate(reader.pages):
-        text = page.extract_text()
+        text = page.extract_text() or ""
 
         pages.append({
             "text": text,

@@ -54,10 +54,16 @@ def search_similar_chunks(query_embedding, k = 3):
         return []
     
     distances, indices = index.search(query_embedding, k)
+
+    seen = set()
     results = []
 
     for idx in indices[0]:
         if idx < len(stored_chunks):
-            results.append(stored_chunks[idx])
+            chunk = stored_chunks[idx]["text"]
+
+            if chunk not in seen:
+                seen.add(chunk)
+                results.append(stored_chunks[idx])
 
     return results

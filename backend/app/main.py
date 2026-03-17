@@ -61,5 +61,11 @@ async def ask_question(question: str):
     return {
         "question": question,
         "answer": answer,
-        "sources": retrieved_chunks
+        "sources": [
+            {
+                "document": c["document"],
+                "page": c["page"]
+            }
+            for c in retrieved_chunks
+        ]
     }
