@@ -32,7 +32,7 @@ def load_index():
             stored_chunks = []
 
 
-def store_embeddings(chunks, embeddings):
+def store_embeddings(metadata, embeddings):
     global index, stored_chunks
 
     embeddings = np.array(embeddings).astype("float32")
@@ -42,7 +42,7 @@ def store_embeddings(chunks, embeddings):
         index = faiss.IndexFlatL2(dimension)
     
     index.add(embeddings)
-    stored_chunks.extend(chunks)
+    stored_chunks.extend(metadata)
 
     save_index()
 

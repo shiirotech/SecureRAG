@@ -23,17 +23,30 @@ async def upload_document(file: UploadFile):
     with open(path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     
-    text = extract_text(path)
+    pages = extract_text(path)
 
-    chunks = split_text(text)
+    all_chunks = []
+    metadata = []
 
-    embeddings = generate_embeddings(chunks)
+    for page in pages:
+        chunks = split_text(page["text"])
 
-    store_embeddings(chunks, embeddings)
+        for chunk in chunks:
+            all_chunks.append(chunk)
+
+            metadata.append({
+                "text": chunk,
+                "page": page["page"],
+                "document": file.filename
+            })
+
+    embeddings = generate_embeddings(all_chunks)
+
+    store_embeddings(metadata, embeddings)
 
     return {
         "filename": file.filename,
-        "chunks": len(chunks),
+        "chunks": len(all_chunks),
         "stored_vectors": len(embeddings)
     }
 
@@ -48,5 +61,5 @@ async def ask_question(question: str):
     return {
         "question": question,
         "answer": answer,
-        "context_used": retrieved_chunks
+        "sources": retrieved_chunks
     }
