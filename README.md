@@ -1,4 +1,4 @@
-SecureRAG
+SecureRAG (UNFINISHED YET)
 
 A local Retrieval-Augmented Generation system that:
 - processes PDF documents
