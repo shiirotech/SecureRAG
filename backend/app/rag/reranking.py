@@ -1,10 +1,14 @@
+from sentence_transformers import CrossEncoder
+
+reranker_model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+
 def rerank_chunks(question, chunks):
-    scored = []
-
-    for chunk in chunks:
-        score = question.lower() in chunk["text"].lower()
-        scored.append((score, chunk))
-
-    scored.sort(reverse=True, key=lambda x: x[0])
+    if not chunks:
+        return []
     
-    return [c for _, c in scored]
+    pairs = [(question, chunk["text"]) for chunk in chunks]
+    scores = reranker_model.predict(pairs)
+    scored = list(zip(scores, chunks))
+    scored.sort(reverse=True, key=lambda x: x[0])
+
+    return [chunk for _, chunk in scored]

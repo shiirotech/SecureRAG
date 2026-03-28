@@ -55,7 +55,7 @@ async def upload_document(file: UploadFile):
 async def ask_question(question: str):
     query_embedding = generate_embeddings([question])
 
-    retrieved_chunks = search_similar_chunks(query_embedding, k=5)
+    retrieved_chunks = search_similar_chunks(query_embedding)
     retrieved_chunks = rerank_chunks(question, retrieved_chunks)
     retrieved_chunks = retrieved_chunks[:3]
 

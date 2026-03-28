@@ -47,7 +47,7 @@ def store_embeddings(metadata, embeddings):
     save_index()
 
 
-def search_similar_chunks(query_embedding, k = 3):
+def search_similar_chunks(query_embedding, k = 20):
     global index, stored_chunks
 
     if index is None:
