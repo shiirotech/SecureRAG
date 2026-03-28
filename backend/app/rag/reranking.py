@@ -1,6 +1,6 @@
 from sentence_transformers import CrossEncoder
 
-reranker_model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+reranker_model = CrossEncoder("BAAI/bge-reranker-base")
 
 def rerank_chunks(question, chunks):
     if not chunks:
