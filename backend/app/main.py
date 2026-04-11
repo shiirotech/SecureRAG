@@ -7,9 +7,18 @@ from app.rag.retrieval import search_similar_chunks
 from app.rag.retrieval import load_index
 from app.rag.generation import generate_answer
 from app.rag.reranking import rerank_chunks
+from fastapi.middleware.cors import CORSMiddleware
 import shutil
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 load_index()
 

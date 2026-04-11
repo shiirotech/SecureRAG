@@ -1,0 +1,26 @@
+.message {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    max-width: 70%;
+}
+
+.user {
+    background-color: #d1e7ff;
+    margin-left: auto;
+    text-align: right;
+}
+
+.assistant {
+    background-color: #f1f1f1;
+    margin-right: auto;
+}
+
+.message-text {
+    margin-bottom: 5px;
+}
+
+.sources {
+    font-size: 12px;
+    opacity: 0.8px;
+}
