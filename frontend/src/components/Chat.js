@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { askQuestionAPI } from '../services/api';
 import Message from './Message';
+import Upload from './Upload';
 import './Chat.css';
 
 function Chat() {
@@ -42,15 +43,19 @@ function Chat() {
 
         {loading && <div>Thinking...</div>}
       </div>
+        <div className="input-area">
+          <div className="upload-section">
+            <Upload />
+          </div>
 
-      <div className="input-area">
-        <input
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          placeholder="Ask a question..."
-        />
-        <button onClick={askQuestion}>Ask</button>
-      </div>
+          <input
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            placeholder="Ask a question..."
+          />
+
+          <button onClick={askQuestion}>Ask</button>
+        </div>
     </div>
   );
 }

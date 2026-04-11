@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, UploadFile, HTTPException
 from app.services.document_service import extract_text
 from app.utils.text_splitter import split_text
 from app.rag.embeddings import generate_embeddings
@@ -26,8 +26,12 @@ load_index()
 def root():
     return {"message": "SecureRAG backend running"}
 
+ALLOWED_TYPES = [".pdf", ".txt"]
+
 @app.post("/upload")
 async def upload_document(file: UploadFile):
+    if not any(file.filename.lower().endswith(ext) for ext in ALLOWED_TYPES):
+        raise HTTPException(status_code=400, detail="Invalid file type")
     path = f"documents/{file.filename}"
 
     with open(path, "wb") as buffer:

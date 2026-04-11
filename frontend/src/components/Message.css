@@ -1,26 +1,37 @@
 .message {
     padding: 10px;
     border-radius: 8px;
-    margin-bottom: 10px;
     max-width: 70%;
+    word-wrap: break-word;
 }
 
-.user {
+.message-row {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.message-row.user {
+    justify-content: flex-end;
+}
+
+.message-row.assistant {
+    justify-content: flex-start;
+}
+
+.message-row.user .message {
     background-color: #d1e7ff;
-    margin-left: auto;
-    text-align: right;
 }
 
-.assistant {
-    background-color: #f1f1f1;
-    margin-right: auto;
+.message-row.assistant .message {
+    background-color: #e0efeb;
 }
 
-.message-text {
-    margin-bottom: 5px;
+.assistant .message-text {
+    margin-bottom: 10px;
 }
 
 .sources {
     font-size: 12px;
-    opacity: 0.8px;
+    opacity: 0.7;
 }
