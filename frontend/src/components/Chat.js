@@ -36,16 +36,16 @@ function Chat() {
     setQuestion("");
   };
 
-  useEffect(() => {
-    const fetchDocuments = async () => {
-      try {
-        const data = await getDocumentsAPI();
-        setDocuments(data.documents);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  const fetchDocuments = async () => {
+    try {
+      const data = await getDocumentsAPI();
+      setDocuments(data.documents);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
+  useEffect(() => {
     fetchDocuments();
   }, []);
 
@@ -64,7 +64,7 @@ function Chat() {
         </div>
           <div className="input-area">
             <div className="upload-section">
-              <Upload />
+              <Upload onUploadSuccess={fetchDocuments} />
             </div>
 
             <input

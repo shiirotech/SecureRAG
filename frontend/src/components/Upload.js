@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { uploadFileAPI } from '../services/api';
 import './Upload.css';
 
-function Upload() {
+function Upload({ onUploadSuccess }) {
   const fileInputRef = useRef(null);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
@@ -32,6 +32,7 @@ function Upload() {
 
     try {
       await uploadFileAPI(file);
+      onUploadSuccess();
       showMessage("File uploaded", "success");
     } catch (err) {
       console.error(err);
