@@ -4,7 +4,13 @@
 
 .header {
     text-align: left;
+    margin-left: 38px;
+    margin-top: 20px;
     padding: 20px;
     font-size: 28px;
     font-weight: bold;
+    width: fit-content;
+    color: white;
+    background: rgba(72, 109, 211);
+    border-radius: 18px;
 }

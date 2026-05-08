@@ -11,7 +11,7 @@
 
 .document-item {
     padding: 10px;
-    margin-bottom: 10px;
+    margin-top: 10px;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.1);
     cursor: pointer;
@@ -26,4 +26,10 @@
     opacity: 0.8;
     font-style: italic;
     margin-top: 10px;
+    text-align: center;
+}
+
+.documents-title {
+    font-size: 20px;
+    text-align: center;
 }

@@ -4,7 +4,7 @@ function Sidebar({ documents }) {
   return (
     <div className="sidebar">
 
-      <h2>Documents</h2>
+      <div className="documents-title">Your documents</div>
 
       {documents.length === 0 ? (
         <div className="empty-documents">
