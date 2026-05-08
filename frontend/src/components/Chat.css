@@ -1,8 +1,12 @@
-.chat-container {
-    max-width: 800px;
-    margin: auto;
+.chat-layout {
+    display: flex;
+    min-height: 100vh;
 }
 
+.chat-container {
+    flex: 1;
+    padding: 20px;
+}
 .messages {
     min-height: 400px;
     margin-bottom: 20px;

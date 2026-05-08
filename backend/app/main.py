@@ -9,6 +9,7 @@ from app.rag.generation import generate_answer
 from app.rag.reranking import rerank_chunks
 from fastapi.middleware.cors import CORSMiddleware
 import shutil
+import os
 
 app = FastAPI()
 
@@ -25,6 +26,17 @@ load_index()
 @app.get("/")
 def root():
     return {"message": "SecureRAG backend running"}
+
+@app.get("/documents")
+async def get_documents():
+    files = [
+        file for file in os.listdir("documents")
+        if file != ".gitkeep"
+    ]
+
+    return {
+        "documents": files
+    }
 
 ALLOWED_TYPES = [".pdf", ".txt"]
 

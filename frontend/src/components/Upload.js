@@ -28,6 +28,8 @@ function Upload() {
     const file = e.target.files[0];
     if (!file) return;
 
+    setMessage("Uploading...");
+
     try {
       await uploadFileAPI(file);
       showMessage("File uploaded", "success");
