@@ -36,10 +36,12 @@ def store_embeddings(metadata, embeddings):
     global index, stored_chunks
 
     embeddings = np.array(embeddings).astype("float32")
+    faiss.normalize_L2(embeddings)
+
     dimension = embeddings.shape[1]
 
     if index is None:
-        index = faiss.IndexFlatL2(dimension)
+        index = faiss.IndexFlatIP(dimension)
     
     index.add(embeddings)
     stored_chunks.extend(metadata)
@@ -47,12 +49,15 @@ def store_embeddings(metadata, embeddings):
     save_index()
 
 
-def search_similar_chunks(query_embedding, k = 20):
+def search_similar_chunks(query_embedding, k = 15):
     global index, stored_chunks
 
     if index is None:
         return []
     
+    query_embedding = np.array(query_embedding).astype("float32")
+    faiss.normalize_L2(query_embedding)
+
     distances, indices = index.search(query_embedding, k)
 
     seen = set()

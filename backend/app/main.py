@@ -1,15 +1,7 @@
-from fastapi import FastAPI, UploadFile, HTTPException
-from app.services.document_service import extract_text
-from app.utils.text_splitter import split_text
-from app.rag.embeddings import generate_embeddings
-from app.rag.retrieval import store_embeddings
-from app.rag.retrieval import search_similar_chunks
-from app.rag.retrieval import load_index
-from app.rag.generation import generate_answer
-from app.rag.reranking import rerank_chunks
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import shutil
-import os
+from app.rag.retrieval import load_index
+from app.api.routes import router
 
 app = FastAPI()
 
@@ -23,77 +15,4 @@ app.add_middleware(
 
 load_index()
 
-@app.get("/")
-def root():
-    return {"message": "SecureRAG backend running"}
-
-@app.get("/documents")
-async def get_documents():
-    files = [
-        file for file in os.listdir("documents")
-        if file != ".gitkeep"
-    ]
-
-    return {
-        "documents": files
-    }
-
-ALLOWED_TYPES = [".pdf", ".txt"]
-
-@app.post("/upload")
-async def upload_document(file: UploadFile):
-    if not any(file.filename.lower().endswith(ext) for ext in ALLOWED_TYPES):
-        raise HTTPException(status_code=400, detail="Invalid file type")
-    path = f"documents/{file.filename}"
-
-    with open(path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-    
-    pages = extract_text(path)
-
-    all_chunks = []
-    metadata = []
-
-    for page in pages:
-        chunks = split_text(page["text"])
-
-        for chunk in chunks:
-            all_chunks.append(chunk)
-
-            metadata.append({
-                "text": chunk,
-                "page": page["page"],
-                "document": file.filename
-            })
-
-    embeddings = generate_embeddings(all_chunks)
-
-    store_embeddings(metadata, embeddings)
-
-    return {
-        "filename": file.filename,
-        "chunks": len(all_chunks),
-        "stored_vectors": len(embeddings)
-    }
-
-@app.post("/ask")
-async def ask_question(question: str):
-    query_embedding = generate_embeddings([question])
-
-    retrieved_chunks = search_similar_chunks(query_embedding)
-    retrieved_chunks = rerank_chunks(question, retrieved_chunks)
-    retrieved_chunks = retrieved_chunks[:3]
-
-    answer = generate_answer(question, retrieved_chunks)
-
-    return {
-        "question": question,
-        "answer": answer,
-        "sources": [
-            {
-                "document": c["document"],
-                "page": c["page"]
-            }
-            for c in retrieved_chunks
-        ]
-    }
+app.include_router(router)

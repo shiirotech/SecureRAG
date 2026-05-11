@@ -1,32 +1,39 @@
 import ollama
 
 def generate_answer(question, context_chunks):
-    context = "\n\n".join(c["text"] for c in context_chunks)
+    context = ""
+    for i, c in enumerate(context_chunks):
+        context += f"""
+    Source: {c['document']}
+    Page: {c['page']}
+    Content:
+    {c['text']}
+    """
 
     prompt = f"""
-You are a technical assistant working with a scientific document.
+    You are answering questions about a scientific paper.
 
-Answer using ONLY the provided context.
+    Use ONLY the provided excerpts.
 
-IMPORTANT:
-- Do NOT give a high-level summary
-- Provide a detailed, mechanism-level explanation
-- Use step-by-step reasoning when applicable
-- Explicitly compare concepts if asked
-- Use multiple parts of the context if relevant
-- If information is missing, clearly state what is missing
-- Do NOT invent information
+    Requirements:
+    - Use Markdown formatting
+    - Base every claim on the provided excerpts
+    - Prefer precise mechanism-level explanations
+    - Avoid vague summaries
+    - If multiple excerpts discuss the same concept, synthesize them carefully
+    - Do not reference excerpts using labels like CHUNK or EXCERPT in the answer.
+    - Do not repeat the same idea unnecessarily
+    - If the context is insufficient, explicitly say so
 
-Structure your answer clearly, but do not force unnecessary sections.
+    Relevant excerpts:
 
-Context:
-{context}
+    {context}
 
-Question:
-{question}
+    Question:
+    {question}
 
-Answer:
-"""
+    Answer:
+    """
     
     response = ollama.chat(
         model="mistral",
