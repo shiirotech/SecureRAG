@@ -1,4 +1,14 @@
 import ollama
+import os
+
+OLLAMA_HOST = os.getenv(
+        "OLLAMA_HOST",
+        "http://localhost:11434"
+    )
+
+client = ollama.Client(
+    host=OLLAMA_HOST
+)
 
 def generate_answer(question, context_chunks):
     context = ""
@@ -34,10 +44,6 @@ def generate_answer(question, context_chunks):
 
     Answer:
     """
-    
-    client = ollama.Client(
-        host="http://host.docker.internal:11434"
-    )
 
     response = client.chat(
         model="mistral",
