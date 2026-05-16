@@ -35,7 +35,11 @@ def generate_answer(question, context_chunks):
     Answer:
     """
     
-    response = ollama.chat(
+    client = ollama.Client(
+        host="http://host.docker.internal:11434"
+    )
+
+    response = client.chat(
         model="mistral",
         messages=[
             {"role": "user", "content": prompt}

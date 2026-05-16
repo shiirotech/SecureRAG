@@ -1,0 +1,13 @@
+venv/
+__pychache__/
+*.pyc
+
+documents/*
+vector_store/*
+
+!documents/.gitkeep
+!vector_store/.gitkeep
+
+*.log
+.vscode/
+.env

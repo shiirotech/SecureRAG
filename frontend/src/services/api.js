@@ -1,6 +1,8 @@
+const API_URL = "http://localhost:8000";
+
 export const askQuestionAPI = async (question) => {
   const response = await fetch(
-    `http://127.0.0.1:8000/ask?question=${encodeURIComponent(question)}`,
+    `${API_URL}/ask?question=${encodeURIComponent(question)}`,
     {
       method: "POST",
     }
@@ -18,7 +20,7 @@ export const uploadFileAPI = async (file) => {
   formData.append("file", file);
 
   const response = await fetch(
-    "http://127.0.0.1:8000/upload", {
+    `${API_URL}/upload`, {
       method: "POST",
       body: formData,
     }
@@ -32,7 +34,7 @@ export const uploadFileAPI = async (file) => {
 };
 
 export const getDocumentsAPI = async () => {
-  const response = await fetch("http://127.0.0.1:8000/documents");
+  const response = await fetch(`${API_URL}/documents`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch documents!");
